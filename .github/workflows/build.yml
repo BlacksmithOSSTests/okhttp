@@ -13,7 +13,7 @@ env:
 
 jobs:
   testbouncycastle:
-    runs-on: blacksmith
+    runs-on: blacksmith-staging-8vcpu-ubuntu-2204
 
     steps:
       - name: Checkout
