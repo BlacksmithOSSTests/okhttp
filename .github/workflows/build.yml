@@ -124,7 +124,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: github.repository == 'square/okhttp' && github.ref == 'refs/heads/master'
         with:
-          files: | # tests if this breaks things
+          files: 
+          | # tests if this breaks things
             **/build/test-results/*/TEST-*.xml
 
   testzulu11:
