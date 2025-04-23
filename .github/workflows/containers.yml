@@ -1,14 +1,8 @@
 name: containers
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
-    types: [opened, labeled, unlabeled, synchronize]
-
-permissions:
-  contents: read
+  workflow_dispatch:
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
@@ -17,8 +11,7 @@ jobs:
   test_containers:
     permissions:
       checks: write # for actions/upload-artifact
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || contains(github.event.pull_request.labels.*.name, 'containers')
+    runs-on: blacksmith
 
     steps:
       - name: Checkout
@@ -27,13 +20,15 @@ jobs:
           fetch-depth: 0
 
       - name: Configure JDK
-        uses: actions/setup-java@v4
+        uses: useblacksmith/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: useblacksmith/setup-gradle/setup-gradle@bump-cache-version
+        with:
+          cache-read-only: false
 
       - name: Run Container Tests
         run: ./gradlew container-tests:test -PcontainerTests=true
