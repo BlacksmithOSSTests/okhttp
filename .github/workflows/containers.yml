@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup Gradle
         uses: useblacksmith/setup-gradle/setup-gradle@bump-cache-version
+        with:
+          cache-read-only: false
 
       - name: Run Container Tests
         run: ./gradlew container-tests:test -PcontainerTests=true
